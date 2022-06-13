@@ -101,15 +101,17 @@ class AddressBook(UserDict):
             self.data.pop(key)
             return rec
 
-    def iterator(self, n):
-        count = 0
-        for i in self.data:
-            if count < n:
-                yield self.data[i]
-                count += 1
-        else:
-            raise StopIteration
-
+    def iterator(self, n=2):
+        step = 0
+        result = '\n'
+        for k, v in self.data.items():
+            result += f'{k} {v}\n'
+            step += 1
+            if step >= n:
+                yield result
+                result = ' ' * 40 + '\n'
+                step = 0
+        yield result
 
 def input_error(func):
     def inner(*args, **kwargs):
@@ -221,3 +223,14 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # ab = AddressBook()
+    # ab.add_record(Record(name=Name("Bill"), phones=[Phone("0987678989")]))
+    # ab.add_record(Record(name=Name("Stella"), phones=[Phone("0987678990")]))
+    # ab.add_record(Record(name=Name("Bella"), phones=[Phone("0987678991")]))
+    # ab.add_record(Record(name=Name("Bart"), phones=[Phone("0666541236")]))
+    # ab.add_record(Record(name=Name("Homer"), phones=[Phone("0934125632")]))
+    # ab.add_record(Record(name=Name("Lisa"), phones=[Phone("0508451230")]))
+    # ab.add_record(Record(name=Name("Marge"), phones=[Phone("0664122098")]))
+    # ab.add_record(Record(name=Name("Meggy"), phones=[Phone("0734122098")]))
+    # for i in ab.iterator(2):
+    #     print(i)
